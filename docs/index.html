@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>CanDIG: National-Scale Genomics for a Federal Canada</title>
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Raleway:400,700);
+      @import url(https://fonts.googleapis.com/css?family=Lato);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body {
+        font-family: 'Lato';
+      }
+      h1, h3 {
+        font-family: 'Raleway';
+        font-weight: 700;
+        color: rgb(36, 178, 43);
+        margin-bottom: 0;
+        -webkit-font-feature-settings: "lnum" 1; 
+        -moz-font-feature-settings: "lnum"; 
+        font-feature-settings: "lnum" 1; 
+        font-variant-numeric: lining-nums;
+      }
+      h2, h4 {
+        font-family: 'Raleway';
+        font-weight: 700;
+        color: rgb(13, 115, 178);
+        margin-bottom: 0;
+        -webkit-font-feature-settings: "lnum" 1; 
+        -moz-font-feature-settings: "lnum"; 
+        font-feature-settings: "lnum" 1; 
+        font-variant-numeric: lining-nums;
+      }
+
+      .remark-slide-content h1 { font-size: 1.5em; }
+      .remark-slide-content h2 { font-size: 1.2em; }
+      .remark-slide-content h3 { font-size: 1.0em; }
+      .remark-slide-content h4 { font-size: 0.8em; }
+
+      .title h1 { font-size: 2.2em; }
+      .title h2 { font-size: 1.6em; }
+      .title h3 { font-size: 1.2em; }
+      .title h4 { font-size: 1.0em; }
+
+      .footnote {
+        position: absolute;
+        bottom: 3em;
+      }
+
+      li p { line-height: 1.25em; }
+      .red { color: #fa0000; }
+      .black { color: #000000; }
+      .large { font-size: 2em; }
+
+      a, a > code {
+        color: rgb(38, 150, 38);
+        text-decoration: none;
+      }
+
+      code {
+        background: #e7e8e2;
+        border-radius: 5px;
+      }
+
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      .remark-code-line-highlighted     { background-color: #373832; }
+
+      .pull-left {
+        float: left;
+        width: 47%;
+      }
+      .pull-right {
+        float: right;
+        width: 47%;
+      }
+      .pull-right ~ p {
+        clear: both;
+      }
+      #slideshow .slide .content code {
+        font-size: 0.8em;
+      }
+      #slideshow .slide .content pre code {
+        font-size: 0.9em;
+        padding: 15px;
+      }
+      .inverse {
+        background: #348e28;
+        color: #777872;
+        text-shadow: 0 0 20px #333;
+      }
+
+      .title {
+        background: #ffffff;
+        background-image: url(assets/background-alpha.png), url(assets/logo-plus-text.png), url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='800' height='100' ><text x='10' y='75' font-family='Helvetica' font-style='italic'>National Analysis of Distributed Private Genomic Data</text></svg>");
+        background-position: center, bottom right, bottom left;
+        background-size: contain, 200px, 1000px;
+        background-repeat: no-repeat;
+      }
+
+      .normal {
+        background: #ffffff;
+        background-image: url(assets/logo-plus-text.png), url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='750' height='100' ><text x='10' y='75' font-family='Helvetica' font-style='italic' fill='#555'>National Analysis of Distributed Private Genomic Data</text></svg>");
+        background-position: 95% 100%, 10% 100%;
+        background-size: 150px, 750px;
+        background-repeat: no-repeat;
+      }
+
+      .remark-slide-number {
+        visibility: hidden;
+      }
+
+      .title h1, h2, h3 {
+        text-shadow: -5px 3px 5px #FFF;
+      }
+
+      .inverse h1, .inverse h2, .inverse h3, .inverse h4 {
+        color: #f3f3f3;
+        line-height: 0.8em;
+        text-shadow: 0 0 20px #333;
+      }
+      .inverse a {
+        color: #a3a3f3;
+        text-decoration: none;
+      }
+
+      /* Slide-specific styling */
+      #slide-inverse .footnote {
+        bottom: 12px;
+        left: 20px;
+      }
+      #slide-how .slides {
+        font-size: 0.9em;
+        position: absolute;
+        top:  151px;
+        right: 140px;
+      }
+      #slide-how .slides h3 {
+        margin-top: 0.2em;
+      }
+      #slide-how .slides .first, #slide-how .slides .second {
+        padding: 1px 20px;
+        height: 90px;
+        width: 120px;
+        -moz-box-shadow: 0 0 10px #777;
+        -webkit-box-shadow: 0 0 10px #777;
+        box-shadow: 0 0 10px #777;
+      }
+      #slide-how .slides .first {
+        background: #fff;
+        position: absolute;
+        top: 20%;
+        left: 20%;
+        z-index: 1;
+      }
+      #slide-how .slides .second {
+        position: relative;
+        background: #fff;
+        z-index: 0;
+      }
+
+      /* Two-column layout */
+      .left-column {
+        width: 45%;
+        height: 90%;
+        float: left;
+      }
+      .right-column {
+        width: 45%;
+        height: 90%;
+        float: right;
+      }
+    </style>
+  </head>
+  <body>
+<textarea id="source">
+name: canheittitle
+class: blank
+.center[<img width="100%" src="assets/ct-title.png">]
+---
+name: title
+class: center, middle, title
+count: false
+# The CanDIG Project
+## National Genomic Analysis for a Federal Canada
+
+<br/>
+<br/>
+
+Jonathan Dursi<br/>
+17 May 2018<br/>
+Ontario Advanced Research Computing Congress<br/>
+http://candig.github.io/OARCC-May-2018
+---
+class: normal
+# Canada will save the Genomics* World
+.center[<img width="60%" src="assets/img/patriotic.png">]
+
+(*and other big-data fields)
+---
+class: normal
+# Canada will save the Genomics World
+## From Silo-megaddon
+
+.center[<img width="70%" src="assets/img/silomegaddon.png">]
+---
+class: normal
+# Genomic Data Volumes Growing Rapidly
+
+Genomic volumes currently doubling every 7-12 months
+
+Currently driven by research projects, on both human and model organisms
+
+.center[<img src="assets/img/genomic-data-volumes.png" style="float: center;" width=65%>]
+
+(From [Stephens _et al_. (2015) &ldquo;Big Data: Astronomical or Genomical?&rdquo;](https://doi.org/10.1371/journal.pbio.1002195))
+---
+class: normal
+# Genomic Data Volumes Growing Rapidly
+
+This (IMHO) understates the near-term rate of change
+
+New devices are arriving which will move some sequencing from specialized core facilities to small labs (_c.f._ &ldquo;killer micros&rdquo;)
+
+.center[<img src="assets/img/MinION.jpg" width=40%> <img src="assets/img/sequencing-animated.gif" width=40%>]
+
+[Credit: [Oxford Nanopore](http://www.nanoporetech.com)]
+---
+class: normal
+# New Data Types: Metagenomics
+
+Metagenomics &ndash; doing sequencing of an environmental sample, and putting together a census of microbes 
+* Direct Human health
+    - Wounds - infection
+    - Environment - pathogens, antibiotic resistance
+    - Gut flora, skin, _etc._
+
+* Environmental effects on health
+    - Water, homes, etc.
+
+.center[<img src="assets/img/metagenomics.jpg" width=45%>]
+---
+class: normal
+# New Data Types: RNA
+
+Entirely new data types are becoming available for the first time:
+
+_E.g._, direct RNA sequencing [Credit: [Oxford Nanopore](http://www.nanoporetech.com)]
+
+.center[<img src="assets/img/RNA_v1.svg" width=50%>]
+---
+class: normal
+# Transcriptomics
+
+DNA is just the beginning - the recipe book that is read from during cell processes.
+
+.center[<img src="assets/img/transcript-atlas-april-2016.gif" width="40%">]
+
+Each cell type expresses different levels of transcripts for genes, and often different forms of those transcripts
+
+Directly describes disease state
+---
+class: normal
+# Genomic Medicine
+And those changes in research genomics will be tiny compared to what's coming: genomic medicine.
+
+.center[<img src="assets/img/genomic-medicine.jpg" width=50%>]
+
+--
+
+Whole genome sequencing already starting to become part of the toolkit for diagnosing rare diseases, oncology
+
+~$1000 is a lot for a test, but not unfathomable
+
+As becomes cheaper/easier/faster, will become standard of care for more and more cases
+
+And medicine is _huge_ - hospital spending alone is ~70x entire CIHR budget
+---
+class: normal
+# Genomic Privacy
+
+But health data is (rightly) treated with the strictest privacy controls
+
+.center[<img src="assets/img/genomic-privacy.png" width=30%>]
+
+Some health data can be anonymized for study
+
+Genomic data is to some extent inherently identifiable
+
+An identifier that cannot be changed
+---
+class: normal
+# What to do with the data?
+
+<img width="66%" style="float: right;" src="assets/img/silomegaddon.png">
+
+<br/>
+
+Naturally, the tendency is to put the data in silos
+
+* Safe
+
+* Well understood
+
+
+Silo walls have two forms, usually coincident:
+
+* Technical (different sites, different systems)
+
+* Policy/Governance (different policies, different procedures)
+
+Data then analyzed by those within the silo or who can get within the silo
+---
+class: normal
+# Siloed Data Is Squandered Data
+
+.pull-right[<img width="100%" src="Diagrams/need-federation.png">]
+
+Those silos don't make research impossible, but greatly reduce the number and type of questions being asked.
+
+To perform cross-silo research, one must:
+
+--
+
+* Know that there is data out there that would be useful for your study
+* Know where it is and who to get permission from
+* Get permission to use the data:
+    - Bespoke policy agreement, involving legal teams or REB evaluation
+* Get permission to either work within the silo, 
+    - Usage agreements
+* Or get permission to transfer data out
+    - Bespoke Data Transfer agreement, possible update to REB
+
+--
+
+* Perform the analysis, which may or may not find something
+
+---
+class: normal
+# Siloed Data Is Squandered Data
+
+.pull-right[<img width="100%" src="Diagrams/need-federation.png">]
+
+But health researchers need to be able to analyze as large sample sizes as possible:
+
+* Rare diseases (which collectively affect 5%+ of people):
+    - Need large numbers of subjects to escape the \\(N=1\\) problem!
+
+* Precision oncology:
+    - Many cancer cases are rare diseases if you look closely enough
+
+* Statistical power:
+    - Most diseases have multiple causes, each one with weak signal
+    - Need large study to separate signal from noise
+---
+class: normal
+# Our International Colleagues Have A Cunning Plan:
+
+--
+
+## Bigger Silos
+
+.center[<img width="60%" src="assets/img/big-silos.png">]
+---
+class: normal
+# Our International Colleagues Have A Cunning Plan:
+
+## Bigger Silos
+
+.center[<img width="60%" src="assets/img/no-big-silos.png">]
+---
+class: normal
+# Big Silos Aren't The Answer
+
+.pull-right[<img width="100%" src="assets/img/big-silos.png">]
+
+The approach isn't completely without merit:
+
+* Reduce the number of techincal/policy hoops a researcher has to cross to get to a particular data size
+
+* dbGaP in the US, EGA in Europe
+
+--
+
+But there are problems
+
+* Bigger silos tend to have higher walls
+
+* The silos tend to grow up around data types and technologies rather than populations or needs
+
+* There are scalability limits to the approach of dumping everything in a single silo
+
+* Works ok with individual research projects; but how to deal with healthcare systems?
+
+--
+
+**The only scalable solution is federation between data stewards**
+---
+class: normal
+# Enter Canada
+
+.center[<img width="60%" src="assets/img/patriotic.png">]
+---
+class: normal
+# Canada is a Federation
+.pull-right[<img width="80%" src="assets/img/healthcare.png">]
+
+<br/>
+In Canada, healthcare &mdash; and so health data &mdash; is a matter of exclusive provincial jursidiction
+
+* Each province has made its own decision about privacy tradeoffs based on its populations' own choices
+
+* Even if centralization of data scaled, differing provincial statutory and regulatory requirements would make it all but impossible
+
+--
+
+But Canada is a federation, and understands the issues around data federation
+
+* _E.g._, CIHI - the [Canadian Institute for Heath Information](https://www.cihi.ca/en)
+
+---
+class: normal
+# The CanDIG Project
+
+A _Canadian_ approach to analysis of genomic data: 
+* National-scale populations 
+* Respecting provincial, institutional stewards local control over their data, users.
+
+.center[<img width="70%" src="assets/img/map.png">]
+---
+class: normal
+# The CanDIG Project
+
+.pull-right[<img width="100%" src="assets/img/map.png">]
+
+* Funded 4 year CFI cyberinfrastructure project
+
+* 1 year into the effort
+
+* Participation from Canada's largest health genome sequencing centres:
+
+    - McGill University/Genome Québec Innovation Centre
+
+    - Hospital For Sick Children
+
+    - Princess Margaret Cancer Center
+
+    - BC Cancer Care Agency / BC Genome Science Centre
+
+* Building the infrastructures for genomic analyses on national-scale data sets
+
+    - Technological
+
+    - Governance
+
+---
+class: normal
+# De novo
+
+On the technical side, CanDIG is building a new infrastructure _de_ _novo_
+
+.center[<img width="55%" src="Diagrams/new-architecture.png">]
+
+This has provided enormous opportunities; lap our international colleagues
+
+* New technologies: Go, Docker, REST APIs, OpenAPI, OIDC Connect
+
+---
+class: normal
+# Technical: Decentralized
+
+.center[<img width="50%" src="Diagrams/decentralized.png">]
+---
+class: normal
+# Technical: Decentralized
+
+.pull-right[<img width="75%" src="Diagrams/decentralized.png">]
+
+Crucially, we are building a completely decentralized technical infrastructure
+
+* Shared nothing
+
+* Centralized nothing
+
+* Each data steward has complete control over:
+
+    - Their systems
+
+    - Access to the data under their stewardship
+
+---
+class: normal
+# Technical: Modern, Secure, Standards-Based
+## Authentication
+
+* Using modern, secure web technologies for authentication
+
+* Standards-based
+
+.center[<img width="50%" src="Diagrams/OIDC-onepanel.png">]
+---
+class: normal
+# Technical: Modern, Secure, Standards-Based
+## Authentication
+
+.pull-right[<img width="100%" src="Diagrams/OIDC-onepanel.png">]
+
+* Each site authenticates its own user with its own login
+
+* Person leaves, logins disabled right away
+
+Standards-based means improved interoperability:
+
+* Work plan drawn up with European Genome-Phenome Archive, ELIXIR Europe
+
+* Interoperability with European bioinformatics initiatives
+---
+class: normal
+# Technical: Modern, Secure, Standards-Based
+## API-Driven
+
+.pull-right[<img width="100%" src="Diagrams/layered-APIs.png">]
+
+* Based on RESTful, web services-style APIs
+
+* No remote log-in to a shell
+
+* Excellent for logging, auditabilty
+
+--
+
+API-first approach:
+
+* Microservices
+
+* API gateway
+
+* Swagger/OpenAPI
+
+* Makes testing, validation straightforward
+
+---
+class: normal
+# Technical: Modern, Secure, Standards-Based
+## Send Compute to Data
+
+.pull-right[<img width="70%" src="Diagrams/images.png">]
+
+Don't want to &mdash; can't &mdash; pull data to where the analysis will take place
+
+* Send the processing to the data
+
+* Bundle up the analysis 
+
+* Send it, where access can be controlled in a very fine-grained manner
+
+* Provide access to the resulting data through APIs
+
+---
+class: normal
+# Technical: Modern, Secure, Standards-Based
+## Send Compute to Data
+
+Have done extensive benchmarking of different container approaches 
+
+* Some of the first to have done this
+
+.pull-right[<img width="80%" src="assets/img/containers.png">]
+
+Building a container-based infratructure for genomics:
+
+* Docker for long-running services
+
+* Singularity for bioinformatics tasks
+---
+class: normal
+# Technical: Modern, Secure, Standards-Based
+## Authorization
+
+.pull-right[<img width="90%" src="assets/img/authorization.png">]
+
+* Rule-Based and Attribute-Based access control
+
+* Authorization policy engine applies policies to each request
+---
+class: normal
+# Technical
+## Federated
+
+.pull-right[<img width="85%" src="Diagrams/need-federation-have-federation.png">]
+
+So far we've described silos
+
+* But silos with a building code for standardized cross-silo access
+
+* Security, Autonomy, while being able to interoperate
+---
+class: normal
+# Technical
+## Federated
+
+.pull-right[<img width="85%" src="assets/img/federated-1kg-batch.png">]
+
+We've demonstrated that this approach works, using the [Thousand Genomes](https://en.wikipedia.org/wiki/1000_Genomes_Project) data set
+
+* Reproduce 1000 genomes variants analysis
+
+    - Foundational results of population genomics
+
+* Reproduce them as long-running batch processes
+
+---
+class: normal
+# Technical
+## Federated
+
+.pull-right[<img width="85%" src="assets/img/federated-1kg-jupyter.png">]
+
+* Also run them interactively in Jupyter or RStudio notebooks
+---
+class: normal
+# Governance
+
+.pull-right[<img width="85%" src="assets/img/data-governance.png">]
+
+Technical issues are only part of the picture
+
+* Arguably the less complex part
+
+Have started our development with two new projects with established REB approvals, data sharing/transfer agreements:
+
+* PROFYLE
+
+* TF4CN
+
+--
+
+Putting together a governance and oversight board to craft policies to build on these successes
+
+* Build a _framework_ for approvals, agreements
+
+* Build _standards_ for consents, access
+
+* Build shared policies and processes for privacy and security that meet _all_ requirements
+---
+class: normal
+# Governance 
+## Research Projects - PROFYLE
+
+.pull-right[<img width="100%" src="assets/img/profyle.png">]
+
+The PROFYLE project
+
+* Terry Fox Research Institute (TFRI) funded project for pediatric oncology
+
+* Samples being taken, pipelines being run
+
+    - Provide a dashboard 
+
+    - Provide ability to explore the data - see variants by gene, _etc_
+
+    - Look for commonalities between these cases
+
+* Provide fine-grained access for researches already approved, while also allowing aggregated results for those with less acess
+---
+class: normal
+# Governance 
+## Research Projects - TF4CN
+
+.pull-right[<img width="100%" src="assets/img/tf4cn.png">]
+
+Support a clinical basket-style cancer trial
+
+Provide clinician access to detailed information on 
+
+* subjects for assigning to sub-trials
+
+* subject progress
+
+Provide aggregated results afterwards
+---
+class: normal
+# Governance 
+## Technical Choices In Support of Governance
+
+Data Governance is not a set of problems that can be solved by technological measures
+
+However, technological tools can open up some options
+
+We have built in from the beginning two approaches which give some flexibility
+
+* Differential privacy for private provision of aggregated data
+
+* ADA-M for computable consent and authorization
+
+---
+class: normal
+# Randomization Approaches to Privacy
+
+## Randomize Responses
+
+.pull-right[<img width="100%" src="assets/img/randomized-response.png">]
+
+Old technique for surveying for behaviours which are illegal or have other stigma attached.
+
+&ldquo;Have you ever stolen anything&rdquo;
+
+* \\(p = 0.5\\) - true answer
+
+* \\(p = 0.5\\) - random answer
+
+* &ldquo;bad&rdquo; answer occurs w/ \\(p \approx 0.25\\); “plausible deniability” for any survey respondent.
+---
+class: normal
+# Randomization Approaches to Privacy
+
+## Randomize Responses
+
+.pull-right[<img width="100%" src="assets/img/randomized-response.png">]
+
+But at the same time, can estimate true overall frequencies (and correlations!) knowing the noise model!
+
+* If obtain frequency \\( \hat{f} \\) from the survey instrument, can calculate true frequency  \\(f = 2(\hat{f} - 1/4)\\)
+
+* Need more samples for given variance, but can get accurate results while protecting each individual’s privacy.
+
+---
+class: normal
+# Differential Privacy
+
+.center[<img width="50%" src="assets/img/diff-privacy.png">]
+
+Different approach: keep inputs, add noise to outputs
+
+Add enough noise (and of right type) to ensure following guarantee:
+
+* Probability of an individual's data being leaked because it is in the data set is
+
+    - bounded
+
+    - small
+---
+class: normal
+# Differential Privacy
+
+## Guarantees
+
+
+Data *subject*: &ldquo;There is a quantifiable, minimal, cost to my privacy by participating in this database&rdquo;.
+
+Data *analyst*: &ldquo;I would get an essentially equal distribution of answers from this query if any one row had been absent from the database&rdquo;.
+---
+class: normal
+# Automatable Discovery and Access Matrix
+## ADA-M
+
+.pull-right[<img width="100%" src="assets/img/ada-m.png">]
+
+Comprehensive list of use and access rights for a data
+
+With corresponding consent text for patients, clinicians
+
+Machine readable!
+
+* Can make run-time decisions about what computations are authorizable
+
+---
+class: normal
+# Part of an International Community
+
+.pull-right[<img width="100%" src="Diagrams/ga4gh-driver.png">]
+
+This fall, CanDIG was made a driver project of the international Global Alliance for Genomics and Health (GA4GH)
+
+* International standards-setting effort
+
+* Interoperability
+
+* Regulatory and Ethics
+
+* Advocate 
+
+We can build on their work (_e.g._, ADA-M, data access standards)
+
+We are _already_ helping them build on our work of peer-to-peer federation
+---
+class: normal
+# Nobody Said Data Federalism Was Easy
+
+.pull-right[<img width="100%" src="assets/img/federalism-buckleys.png">]
+
+Data Federalism takes a lot of work:
+
+* Messy
+
+* Hard work
+
+* Lots of negotation, consensus building
+
+* Requires a lot more infrastructure, planning than centralization
+
+* Slow to get started
+
+--
+
+But it works!
+
+And its the only approach that scales
+
+---
+class: normal
+# Canada Is Perfectly Positioned 
+
+<br/>
+
+Canada is in the right place to build _now_ the solutions that the genomics world will need in the coming decade
+
+.pull-right[<img width="90%" src="assets/img/patriotic.png">]
+
+* Canadian teams understand data federation
+
+* Canadian teams have experience with federated governance, and federated data exchange
+
+* Canadian institutions have the institutional will to build the framework that will allow genomic data sharing to take place
+
+---
+class: normal
+# But We Have a Lot to Do!
+
+.left-column[
+* Continue building the technical architecture of each site:
+
+    - New technologies: Go, Docker, REST APIs, OpenAPI, OIDC Connect
+]
+.right-column[
+.center[<img width="60%" src="Diagrams/new-architecture.png">]
+]
+---
+class: normal
+# But We Have a Lot to Do!
+
+.left-column[
+* Continue building the technical architecture of each site:
+    - New technologies: Go, Docker, REST APIs, OpenAPI, OIDC Connect
+
+* Design and build the next generation of genomics, bioinformatics, and statistical algorithms:
+    - That work on these completely distributed data sets
+    - That maintain privacy
+]
+.right-column[
+.center[<img width="60%" src="Diagrams/new-architecture.png">]
+.center[<img width="60%" src="Diagrams/need-federation-have-federation.png">]
+]
+---
+class: normal
+# But We Have a Lot to Do!
+
+.left-column[
+* Continue building the technical architecture of each site:
+    - New technologies: Go, Docker, REST APIs, OpenAPI, OIDC Connect
+
+* Design and build the next generation of genomics, bioinformatics, and statistical algorithms:
+    - That work on these completely distributed data sets
+    - That maintain privacy
+
+* Build a governance infrastructure and framework that will maintain privacy and stewardship while removing unnecessary roadblocks
+]
+.right-column[
+.center[<img width="60%" src="Diagrams/new-architecture.png">]
+.center[<img width="60%" src="Diagrams/need-federation-have-federation.png">]
+.center[<img width="33%" src="assets/img/data-governance.png">]
+]
+---
+class: normal
+# Canada will save the Genomics World
+
+.center[<img width="66%" src="assets/img/patriotic.png">]
+
+---
+class: normal
+# And You Can Too
+.center[<img width="66%" src="assets/img/your-name-here.png">]
+
+---
+class: normal
+# Image Credits
+
+Slide 2 - Patriotic Montage
+* Michael Kwan, https://www.flickr.com/photos/beyondtherhetoric/4755720719
+* DaPuglet, https://www.flickr.com/photos/dapuglet/14340135287
+* IHA Rentals, https://www.iha.com/canada-countryside-rentals/2OJs/
+* E Pluribus Anthony, https://en.wikipedia.org/wiki/Geography_of_Canada
+
+Slide 3 - Silomeggadon
+* https://pxhere.com/en/photo/1129434
+* Dmitrijs Purgalvis, https://commons.wikimedia.org/wiki/File:Abandoned_factory_-_panoramio_(10).jpg
+* Roy Luck, https://commons.wikimedia.org/wiki/File:Metalwork,_abandoned_US_Steel_iron_mill_(8907655571).jpg
+
+Slide 6 - Metagenomics
+* <a href="https://twitter.com/erikgarrison/status/969560993922736128">https://twitter.com/erikgarrison/status/969560993922736128</a>
+
+Slide 8 - Transcriptomics
+* <a href="http://www.gene-quantification.de">http://www.gene-quantification.de</a>
+
+---
+class: normal
+# Image Credits (cont'd)
+
+Slide 9 - Genomic Medicine
+* McCarthy, McLeod, and Ginsburg, &ldquo;Genomic Medicine: A Decade of Successes, Challenges, and Opportunities&rdquo; http://stm.sciencemag.org/content/5/189/189sr4.full
+
+Slide 11 - Genomic privacy
+* Julie McMurray, https://pixabay.com/en/genomic-privacy-genomic-security-3302478
+
+Slide 24 - BNA Act, 1867
+* http://www.legislation.gov.uk/ukpga/1867/3/pdfs/ukpga_18670003_en.pdf
+
+Slide 41 - Data governance
+* &ldquo;What is Clinical Governance&rdquo; - N. Starey, https://commons.wikimedia.org/wiki/File:Smallwhatisclingov.jpg
+---
+class: normal
+# Image Credits (cont'd)
+
+Slide 50 - ADA-M
+* Dyke _et_ _al._, "Consent Codes: Upholding Standard Data Use Conditions": http://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1005772
+
+Slide 53 - Buckley's
+* http://www.buckleys.ca
+
+    </textarea>
+    <script src="remark/remark-latest.min.js">
+    <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/contrib/auto-render.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+    <script type="text/javascript">
+      var options = {ratio: '16:9'};
+      var renderMath = function() {
+        renderMathInElement(document.body);
+      }
+      var slideshow = remark.create(options, renderMath);
+    </script>
+  </body>
+</html>
